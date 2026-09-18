@@ -1,0 +1,252 @@
+---
+import { useTranslations, type Lang } from '../../i18n/utils';
+import { useSite } from '../../i18n/site';
+import { pricing } from '../../data/pricing';
+import Faq from '../Faq.astro';
+import Cta from '../Cta.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const s = useSite(lang);
+const price = pricing[lang];
+
+const rates = [
+  {
+    flow: 'Subscriptions',
+    fee: '1%',
+    who: 'Club',
+    why: 'On Direct Debit rails the all-in cost lands near 1%, below card processing. Most clubs save money by moving.',
+  },
+  {
+    flow: 'Tickets & shop',
+    fee: '1.5% + 20p',
+    who: 'The buyer',
+    why: 'Carried as a booking fee, exactly as every ticketing platform already works. It costs the club nothing.',
+  },
+  {
+    flow: 'Lottery & draws',
+    fee: '3%',
+    who: 'Club',
+    why: 'Replaces a spreadsheet and a standing order.',
+  },
+  {
+    flow: 'Sponsorship',
+    fee: '5%',
+    who: 'Club',
+    why: 'Only on deals we sourced. Never on a sponsor you already had.',
+  },
+];
+---
+
+<section class="head band">
+  <span class="glow" aria-hidden="true"></span>
+  <div class="shell inner">
+    <p class="kicker">{s('pricing.kicker')}</p>
+    <h1 class="display">{t('pricing.title')}</h1>
+    <p class="lede">{t('pricing.sub')}</p>
+  </div>
+</section>
+
+<section class="band tiers-band">
+  <div class="shell">
+    <div class="tiers">
+      <article class="tier feature reveal">
+        <span class="tn">{t('pricing.free')}</span>
+        <span class="tp">0</span>
+        <p>{t('pricing.freeD')}</p>
+        <a class="btn" href="#claim">
+          {t('hero.cta')}
+        </a>
+      </article>
+      <article class="tier reveal">
+        <span class="tn">{t('pricing.club')}</span>
+        <span class="tp">
+          {price.club}
+          <small>{t('pricing.month')}</small>
+        </span>
+        <p>{t('pricing.clubD')}</p>
+        <a class="btn btn--ghost" href="#claim">
+          {t('hero.cta')}
+        </a>
+      </article>
+      <article class="tier reveal">
+        <span class="tn">{t('pricing.match')}</span>
+        <span class="tp">
+          {price.matchday}
+          <small>{t('pricing.month')}</small>
+        </span>
+        <p>{t('pricing.matchD')}</p>
+        <a class="btn btn--ghost" href="#claim">
+          {t('hero.cta')}
+        </a>
+      </article>
+    </div>
+
+    <div class="rates reveal">
+      <h2 class="h3">Transaction fees</h2>
+      <p class="sub">
+        We earn on the money already moving through your club. When a fee is carried by the buyer it
+        is shown at checkout and the club receives the full amount.
+      </p>
+      <div class="scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>Flow</th>
+              <th>Fee</th>
+              <th>Paid by</th>
+              <th>Why it holds</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rates.map((r) => (
+              <tr>
+                <td class="f">{r.flow}</td>
+                <td class="fee">{r.fee}</td>
+                <td class="who">{r.who}</td>
+                <td class="why">{r.why}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="note">{t('pricing.note')}</p>
+    </div>
+  </div>
+</section>
+
+<Faq lang={lang} />
+<Cta lang={lang} />
+
+<style>
+  .head {
+    position: relative;
+    overflow: clip;
+    padding-bottom: clamp(20px, 3vw, 36px);
+  }
+  .inner {
+    position: relative;
+    z-index: 1;
+  }
+  .head .display {
+    margin: 20px 0 22px;
+    max-width: 13ch;
+  }
+
+  .tiers {
+    display: grid;
+    gap: var(--gap);
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 780px) {
+    .tiers {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  .tier {
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+    padding: clamp(24px, 2.8vw, 36px);
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+  }
+  .tier.feature {
+    border-color: color-mix(in oklab, var(--accent) 45%, transparent);
+    background: linear-gradient(180deg, var(--accent-glow), transparent 46%), var(--surface);
+  }
+  .tn {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+  .tier.feature .tn {
+    color: var(--accent);
+  }
+  .tp {
+    font-size: clamp(36px, 4.4vw, 50px);
+    font-weight: 800;
+    letter-spacing: -0.05em;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .tp small {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink-3);
+    letter-spacing: 0;
+  }
+  .tier p {
+    color: var(--ink-2);
+    font-size: 14.5px;
+    line-height: 1.5;
+    flex: 1;
+  }
+  .tier .btn {
+    align-self: flex-start;
+  }
+
+  .rates {
+    margin-top: clamp(44px, 6vw, 80px);
+  }
+  .rates .sub {
+    color: var(--ink-2);
+    font-size: 15.5px;
+    max-width: 62ch;
+    margin: 12px 0 22px;
+    line-height: 1.5;
+  }
+  .scroll {
+    overflow-x: auto;
+    border-top: 1px solid var(--line-2);
+  }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    min-width: 620px;
+  }
+  th {
+    text-align: left;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    padding: 14px 18px 14px 0;
+    font-weight: 600;
+  }
+  td {
+    padding: 16px 18px 16px 0;
+    border-top: 1px solid var(--line);
+    vertical-align: top;
+    font-size: 14.5px;
+  }
+  .f {
+    font-weight: 650;
+    white-space: nowrap;
+  }
+  .fee {
+    font-family: var(--mono);
+    color: var(--accent);
+    white-space: nowrap;
+  }
+  .who {
+    color: var(--ink-2);
+    white-space: nowrap;
+  }
+  .why {
+    color: var(--ink-2);
+    line-height: 1.45;
+  }
+  .note {
+    margin-top: 20px;
+    font-size: 13.5px;
+    color: var(--ink-3);
+  }
+</style>

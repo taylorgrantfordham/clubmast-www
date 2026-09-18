@@ -1,0 +1,18 @@
+---
+import Base from '../layouts/Base.astro';
+import Pricing from '../components/pages/Pricing.astro';
+import { useTranslations, defaultLang } from '../i18n/utils';
+
+const lang = defaultLang;
+const t = useTranslations(lang);
+---
+
+<Base
+  lang={lang}
+  title={`${t('nav.pricing')} — Clubmast`}
+  description={t('meta.home.desc')}
+  path="/pricing"
+  active="pricing"
+>
+  <Pricing lang={lang} />
+</Base>

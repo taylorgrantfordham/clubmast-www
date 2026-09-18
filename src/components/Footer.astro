@@ -1,0 +1,180 @@
+---
+import { useTranslations, localePath, alternates, languages, type Lang } from '../i18n/utils';
+import { useSite } from '../i18n/site';
+import Wordmark from './Wordmark.astro';
+import { sports, sportName } from '../data/sports';
+
+interface Props {
+  lang: Lang;
+  path?: string;
+}
+const { lang, path = '/' } = Astro.props;
+const t = useTranslations(lang);
+const s = useSite(lang);
+const alts = alternates(path);
+const year = new Date().getFullYear();
+
+const explore = [
+  { href: localePath(lang, '/product'), label: t('nav.product') },
+  { href: localePath(lang, '/sports'), label: t('nav.sports') },
+  { href: localePath(lang, '/pricing'), label: t('nav.pricing') },
+  { href: '/football', label: s('nav.football') },
+];
+
+const topSports = sports.slice(0, 6);
+---
+
+<footer class="ft on-dark">
+  <div class="shell">
+    <div class="cols">
+      <div class="brandcol">
+        <Wordmark size={26} />
+        <p class="tag">{t('footer.tag')}</p>
+        <p class="built">{t('footer.built')}</p>
+      </div>
+
+      <nav class="col" aria-labelledby="f-explore">
+        <h2 id="f-explore">{s('foot.explore')}</h2>
+        <ul>
+          {explore.map((l) => (
+            <li>
+              <a href={l.href}>{l.label}</a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
+      <nav class="col" aria-labelledby="f-sports">
+        <h2 id="f-sports">{s('foot.sports')}</h2>
+        <ul>
+          {topSports.map((sp) => (
+            <li>
+              <a href={localePath(lang, `/sports#${sp.key}`)}>{sportName(sp, lang)}</a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
+      <nav class="col langs" aria-labelledby="f-lang">
+        <h2 id="f-lang">{t('footer.lang')}</h2>
+        <ul>
+          {alts.map((a) => (
+            <li>
+              <a
+                href={a.href}
+                hreflang={a.tag}
+                lang={a.tag}
+                class={a.code === lang ? 'on' : ''}
+                aria-current={a.code === lang ? 'true' : undefined}
+              >
+                {languages[a.code].name}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </div>
+
+    <div class="base">
+      <span>
+        &copy; {year} Clubmast. {t('footer.rights')}
+      </span>
+      <span class="dot">·</span>
+      <a href="https://clubmast.com">clubmast.com</a>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .ft {
+    border-top: 1px solid var(--line);
+    background: var(--bg-2);
+    padding-block: clamp(44px, 6vw, 76px) 32px;
+    margin-top: clamp(56px, 8vw, 110px);
+  }
+  .cols {
+    display: grid;
+    gap: 36px 40px;
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 640px) {
+    .cols {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  @media (min-width: 1000px) {
+    .cols {
+      grid-template-columns: 1.6fr 1fr 1fr 1.3fr;
+    }
+  }
+
+  .tag {
+    font-weight: 700;
+    font-size: clamp(19px, 2.2vw, 24px);
+    letter-spacing: -0.035em;
+    line-height: 1.15;
+    margin: 18px 0 10px;
+    max-width: 20ch;
+  }
+  .built {
+    color: var(--ink-2);
+    font-size: 14.5px;
+    max-width: 32ch;
+  }
+
+  .col h2 {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin: 0 0 14px;
+  }
+  .col ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 9px;
+  }
+  .col a {
+    font-size: 14.5px;
+    color: var(--ink-2);
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+  .col a:hover {
+    color: var(--ink);
+  }
+  .langs ul {
+    grid-template-columns: 1fr 1fr;
+    gap: 9px 16px;
+  }
+  .langs a.on {
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  .base {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 12px;
+    align-items: center;
+    margin-top: 44px;
+    padding-top: 22px;
+    border-top: 1px solid var(--line);
+    font-size: 13px;
+    color: var(--ink-3);
+  }
+  .base a {
+    color: var(--ink-3);
+    text-decoration: none;
+  }
+  .base a:hover {
+    color: var(--ink-2);
+  }
+  .dot {
+    opacity: 0.5;
+  }
+</style>

@@ -1,0 +1,253 @@
+---
+import type { SportPage } from '../../data/sport-pages';
+import Icon from '../Icon.astro';
+import Wordmark from '../Wordmark.astro';
+
+interface Props {
+  sport: SportPage;
+}
+const { sport } = Astro.props;
+const img = `/img/${sport.key}`;
+
+// An empty grey disc reads as a broken image; initials read as a person.
+const initials = sport.quoteName
+  .split(/\s+/)
+  .slice(0, 2)
+  .map((w) => w[0])
+  .join('');
+---
+
+<section class="ts on-light band">
+  <div class="shell in">
+    <figure class="shot reveal">
+      <img
+        src={`${img}/team.webp`}
+        alt={`A ${sport.name.toLowerCase()} team at ${sport.clubName}`}
+        width="1024"
+        height="768"
+        loading="lazy"
+        decoding="async"
+      />
+      <figcaption class="badge-card">
+        <span class="crest" aria-hidden="true">
+          <Wordmark size={20} mono />
+        </span>
+        <span class="who">
+          <b>{sport.clubName}</b>
+          <small>{sport.clubMeta}</small>
+        </span>
+      </figcaption>
+    </figure>
+
+    <blockquote class="quote reveal">
+      <p class="kicker">{sport.quoteKicker}</p>
+      <p class="q">&ldquo;{sport.quote}&rdquo;</p>
+      <p class="qb">{sport.quoteBody}</p>
+      <footer>
+        <span class="av" aria-hidden="true">
+          {initials}
+        </span>
+        <span class="nm">
+          <b>{sport.quoteName}</b>
+          <small>{sport.quoteRole}</small>
+        </span>
+      </footer>
+      <!-- Static indicator: there is one testimonial today, and a fake carousel
+           control that does nothing is worse than none. -->
+      <span class="dots" aria-hidden="true">
+        <i class="on"></i>
+        <i></i>
+        <i></i>
+      </span>
+    </blockquote>
+
+    <dl class="stats reveal">
+      {sport.stats.map((st) => (
+        <div>
+          <span class="badge">
+            <Icon name={st.icon} />
+          </span>
+          <dt>{st.value}</dt>
+          <dd>{st.label}</dd>
+        </div>
+      ))}
+    </dl>
+  </div>
+</section>
+
+<style>
+  .in {
+    display: grid;
+    gap: clamp(24px, 3vw, 36px);
+    grid-template-columns: 1fr;
+    align-items: stretch;
+  }
+  @media (min-width: 900px) {
+    .in {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  @media (min-width: 1160px) {
+    .in {
+      grid-template-columns: 1fr 1.14fr 0.7fr;
+    }
+  }
+
+  .shot {
+    position: relative;
+    margin: 0;
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    min-height: 300px;
+  }
+  .shot img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .badge-card {
+    position: absolute;
+    inset: auto 14px 14px;
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 11px 14px;
+    border-radius: var(--r);
+    background: rgb(8 18 15 / 74%);
+    backdrop-filter: blur(10px);
+    color: #fff;
+  }
+  .crest {
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
+    background: rgb(61 220 132 / 20%);
+    color: var(--mint);
+    flex: 0 0 auto;
+    overflow: hidden;
+  }
+  .crest :global(.wm b) {
+    display: none;
+  }
+  .who {
+    display: grid;
+  }
+  .who b {
+    font-size: 14px;
+    font-weight: 750;
+    letter-spacing: -0.02em;
+  }
+  .who small {
+    font-size: 11.5px;
+    color: rgb(255 255 255 / 66%);
+  }
+
+  .quote {
+    margin: 0;
+    padding: clamp(24px, 3vw, 38px);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    background: var(--surface-2);
+    display: flex;
+    flex-direction: column;
+  }
+  .q {
+    font-size: clamp(22px, 2.6vw, 32px);
+    font-weight: 750;
+    letter-spacing: -0.035em;
+    line-height: 1.2;
+    margin: 16px 0 16px;
+  }
+  .qb {
+    color: var(--ink-2);
+    font-size: 15.5px;
+    line-height: 1.6;
+    max-width: 42ch;
+  }
+  .quote footer {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: auto;
+    padding-top: 26px;
+  }
+  .av {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 999px;
+    flex: 0 0 auto;
+    background: linear-gradient(
+      140deg,
+      color-mix(in oklab, var(--accent) 22%, var(--paper-3)),
+      var(--line-2)
+    );
+    font-size: 14px;
+    font-weight: 750;
+    letter-spacing: -0.02em;
+    color: color-mix(in oklab, var(--accent) 72%, var(--ink));
+  }
+  .nm {
+    display: grid;
+  }
+  .nm b {
+    font-size: 14.5px;
+    font-weight: 700;
+  }
+  .nm small {
+    font-size: 12.5px;
+    color: var(--ink-3);
+  }
+  .dots {
+    display: flex;
+    gap: 6px;
+    margin-top: 18px;
+  }
+  .dots i {
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: var(--line-2);
+  }
+  .dots i.on {
+    background: var(--accent);
+    width: 18px;
+  }
+
+  .stats {
+    margin: 0;
+    display: grid;
+    gap: 22px;
+    align-content: center;
+    padding: clamp(22px, 2.6vw, 32px);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    background: var(--surface-2);
+  }
+  .stats div {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: 0 14px;
+  }
+  .stats .badge {
+    grid-row: span 2;
+    margin: 0;
+  }
+  .stats dt {
+    font-size: clamp(24px, 2.6vw, 31px);
+    font-weight: 800;
+    letter-spacing: -0.045em;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.05;
+  }
+  .stats dd {
+    margin: 0;
+    font-size: 13px;
+    color: var(--ink-3);
+  }
+</style>

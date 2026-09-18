@@ -1,0 +1,16 @@
+---
+import Base from '../../layouts/Base.astro';
+import SportPageTemplate from '../../components/pages/SportPage.astro';
+import { football } from '../../data/sport-pages';
+import { defaultLang } from '../../i18n/utils';
+---
+
+<Base
+  lang={defaultLang}
+  title={football.meta.title}
+  description={football.meta.description}
+  path="/football"
+  active="football"
+>
+  <SportPageTemplate sport={football} />
+</Base>

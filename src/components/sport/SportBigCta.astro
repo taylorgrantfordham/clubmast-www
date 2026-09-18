@@ -1,0 +1,136 @@
+---
+import type { SportPage } from '../../data/sport-pages';
+import Icon from '../Icon.astro';
+import { useSite } from '../../i18n/site';
+import { defaultLang } from '../../i18n/utils';
+
+interface Props {
+  sport: SportPage;
+}
+const { sport } = Astro.props;
+const s = useSite(defaultLang);
+const img = `/img/${sport.key}`;
+---
+
+<section class="cta on-dark" id="claim">
+  <div class="bg" aria-hidden="true">
+    <img src={`${img}/cta.webp`} alt="" width="1536" height="864" loading="lazy" decoding="async" />
+  </div>
+  <span class="veil" aria-hidden="true"></span>
+
+  <div class="shell in">
+    <div class="copy reveal">
+      <p class="kicker">{sport.ctaKicker}</p>
+      <h2 class="h2">{sport.ctaTitle}</h2>
+      <p class="lede">{sport.ctaBody}</p>
+      <div class="acts">
+        <a class="btn" href="/#claim">
+          {s('hero.primary')}
+          <span class="arw">
+            <Icon name="arrow" />
+          </span>
+        </a>
+        <a class="btn btn--ghost" href="#features">
+          {s('hero.secondary')}
+          <span class="pl">
+            <Icon name="play" />
+          </span>
+        </a>
+      </div>
+    </div>
+
+    <p class="script reveal" aria-label={sport.ctaScript.join(' ')}>
+      {sport.ctaScript.map((w) => (
+        <span aria-hidden="true">{w}</span>
+      ))}
+    </p>
+  </div>
+</section>
+
+<style>
+  .cta {
+    position: relative;
+    overflow: clip;
+    padding-block: clamp(56px, 7vw, 104px);
+  }
+  .bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+  .bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 70% 60%;
+  }
+  .veil {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(90deg, #050d0b 8%, rgb(5 13 11 / 84%) 46%, rgb(5 13 11 / 34%) 100%);
+  }
+
+  .in {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    gap: 30px;
+    grid-template-columns: 1fr;
+    align-items: center;
+  }
+  @media (min-width: 940px) {
+    .in {
+      grid-template-columns: 1.35fr 0.65fr;
+    }
+  }
+
+  .copy .h2 {
+    margin: 16px 0 18px;
+    max-width: 15ch;
+  }
+  .copy .lede {
+    margin-bottom: 28px;
+    max-width: 44ch;
+  }
+  .acts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .acts .arw,
+  .acts .pl {
+    display: inline-flex;
+    width: 17px;
+    height: 17px;
+  }
+  .btn--ghost .pl {
+    color: var(--mint);
+  }
+
+  /* The handwritten flourish from the design. Each word on its own line, set
+     slightly off the horizontal so it reads as written rather than typeset. */
+  .script {
+    font-family: 'Caveat', 'Segoe Script', cursive;
+    color: var(--mint);
+    font-size: clamp(30px, 4.2vw, 50px);
+    line-height: 0.98;
+    text-align: right;
+    transform: rotate(-4deg);
+    display: grid;
+    justify-items: end;
+  }
+  .script span:nth-child(2) {
+    margin-inline-end: 14px;
+  }
+  .script span:nth-child(4) {
+    margin-inline-end: 6px;
+  }
+  @media (max-width: 939px) {
+    .script {
+      text-align: left;
+      justify-items: start;
+      transform: rotate(-3deg);
+    }
+  }
+</style>

@@ -1,0 +1,153 @@
+---
+import { useTranslations, localePath, type Lang } from '../i18n/utils';
+import { useSite } from '../i18n/site';
+import { pricing } from '../data/pricing';
+import Hero from './Hero.astro';
+import Features from './Features.astro';
+import SportsBand from './SportsBand.astro';
+import Faq from './Faq.astro';
+import EndBand from './EndBand.astro';
+import Icon from './Icon.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const s = useSite(lang);
+const price = pricing[lang];
+---
+
+<Hero lang={lang} />
+<Features lang={lang} />
+<SportsBand lang={lang} />
+
+<!-- ------------------------------------------------------------- pricing -->
+<section class="band on-light" id="how">
+  <div class="shell">
+    <header class="sec reveal">
+      <p class="kicker">{s('pricing.kicker')}</p>
+      <h2 class="h2">{t('pricing.title')}</h2>
+      <p class="lede">{t('pricing.sub')}</p>
+    </header>
+
+    <div class="tiers reveal">
+      <article class="tier feature">
+        <span class="tn">{t('pricing.free')}</span>
+        <span class="tp">0</span>
+        <p>{t('pricing.freeD')}</p>
+        <a class="btn" href="#claim">
+          {s('hero.primary')}
+          <span class="arw">
+            <Icon name="arrow" />
+          </span>
+        </a>
+      </article>
+      <article class="tier">
+        <span class="tn">{t('pricing.club')}</span>
+        <span class="tp">
+          {price.club}
+          <small>{t('pricing.month')}</small>
+        </span>
+        <p>{t('pricing.clubD')}</p>
+        <a class="btn btn--ghost" href={localePath(lang, '/pricing')}>
+          {t('nav.pricing')}
+        </a>
+      </article>
+      <article class="tier">
+        <span class="tn">{t('pricing.match')}</span>
+        <span class="tp">
+          {price.matchday}
+          <small>{t('pricing.month')}</small>
+        </span>
+        <p>{t('pricing.matchD')}</p>
+        <a class="btn btn--ghost" href={localePath(lang, '/pricing')}>
+          {t('nav.pricing')}
+        </a>
+      </article>
+    </div>
+
+    <p class="pnote reveal">{t('pricing.note')}</p>
+  </div>
+</section>
+
+<Faq lang={lang} tone="dark" />
+<EndBand lang={lang} />
+
+<style>
+  .sec {
+    max-width: 54ch;
+    margin-bottom: clamp(30px, 4vw, 52px);
+  }
+  .sec .h2 {
+    margin: 16px 0 14px;
+  }
+
+  .tiers {
+    display: grid;
+    gap: var(--gap);
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 780px) {
+    .tiers {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .tier {
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    background: var(--surface);
+    padding: clamp(24px, 2.8vw, 34px);
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+  }
+  .tier.feature {
+    border-color: color-mix(in oklab, var(--accent) 40%, transparent);
+    background: linear-gradient(180deg, var(--accent-soft), transparent 52%), var(--surface);
+  }
+  .tn {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+  .tier.feature .tn {
+    color: var(--accent);
+  }
+  .tp {
+    font-size: clamp(34px, 4vw, 46px);
+    font-weight: 800;
+    letter-spacing: -0.05em;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .tp small {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink-3);
+    letter-spacing: 0;
+  }
+  .tier p {
+    color: var(--ink-2);
+    font-size: 14.5px;
+    line-height: 1.5;
+    flex: 1;
+  }
+  .tier .btn {
+    align-self: flex-start;
+  }
+  .tier .arw {
+    display: inline-flex;
+    width: 16px;
+    height: 16px;
+  }
+
+  .pnote {
+    margin-top: 22px;
+    font-size: 13.5px;
+    color: var(--ink-3);
+  }
+</style>

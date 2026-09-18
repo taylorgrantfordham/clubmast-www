@@ -1,0 +1,123 @@
+---
+import { useTranslations, type Lang } from '../../i18n/utils';
+import { useSite } from '../../i18n/site';
+import { engines, engineName } from '../../data/engines';
+import { detailFor } from '../../data/engine-detail';
+import Cta from '../Cta.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const s = useSite(lang);
+---
+
+<section class="head band">
+  <span class="glow" aria-hidden="true"></span>
+  <div class="shell inner">
+    <p class="kicker">{s('product.kicker')}</p>
+    <h1 class="display">{t('engines.title')}</h1>
+    <p class="lede">{t('engines.sub')}</p>
+  </div>
+</section>
+
+<section class="band">
+  <div class="shell">
+    <div class="grid">
+      {engines.map((e, i) => {
+        const d = detailFor(e.key);
+        return (
+          <article class="card card--lit reveal">
+            <span class="idx">{String(i + 1).padStart(2, '0')}</span>
+            <h2 class="h3">{engineName(e, lang)}</h2>
+            {d && <p class="blurb">{d.blurb}</p>}
+            {d && (
+              <ul>
+                {d.points.map((p) => (
+                  <li>
+                    <span class="tick" aria-hidden="true">
+                      &check;
+                    </span>
+                    {p}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </article>
+        );
+      })}
+    </div>
+  </div>
+</section>
+
+<Cta lang={lang} />
+
+<style>
+  .head {
+    position: relative;
+    overflow: clip;
+    padding-bottom: clamp(24px, 3vw, 40px);
+  }
+  .inner {
+    position: relative;
+    z-index: 1;
+  }
+  .head .display {
+    margin: 20px 0 22px;
+    max-width: 13ch;
+  }
+
+  .grid {
+    display: grid;
+    gap: var(--gap);
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 700px) {
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (min-width: 1080px) {
+    .grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .idx {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    color: var(--accent);
+    display: block;
+    margin-bottom: 14px;
+  }
+  .blurb {
+    color: var(--ink-2);
+    font-size: 15px;
+    line-height: 1.5;
+    margin: 10px 0 18px;
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 9px;
+  }
+  li {
+    display: grid;
+    grid-template-columns: 16px 1fr;
+    gap: 10px;
+    align-items: start;
+    font-size: 14px;
+    line-height: 1.4;
+    color: var(--ink-2);
+  }
+  .tick {
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 1.5;
+  }
+</style>

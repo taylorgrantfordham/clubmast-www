@@ -1,0 +1,33 @@
+---
+import type { SportPage } from '../../data/sport-pages';
+import SportHero from '../sport/SportHero.astro';
+import SportLevels from '../sport/SportLevels.astro';
+import SportTestimonial from '../sport/SportTestimonial.astro';
+import SportBigCta from '../sport/SportBigCta.astro';
+import Features from '../Features.astro';
+import EndBand from '../EndBand.astro';
+import { defaultLang } from '../../i18n/utils';
+
+/**
+ * The per-sport page template.
+ *
+ * Football is the first one built, and every other code reuses this file
+ * unchanged — the only thing that varies is the config object and the images
+ * under /img/<sport>/. Adding cricket is a data change, not a page.
+ */
+interface Props {
+  sport: SportPage;
+}
+const { sport } = Astro.props;
+---
+
+<SportHero sport={sport} />
+
+<div id="features">
+  <Features lang={defaultLang} intro={sport.featIntro} exploreHref="/product" />
+</div>
+
+<SportLevels sport={sport} />
+<SportTestimonial sport={sport} />
+<SportBigCta sport={sport} />
+<EndBand lang={defaultLang} />

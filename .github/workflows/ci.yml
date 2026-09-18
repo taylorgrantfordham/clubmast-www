@@ -1,0 +1,47 @@
+name: Clubmast CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test-and-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          
+      # 1. Marketing Site (Astro)
+      - name: Install Marketing Site
+        run: npm ci
+      - name: Check Astro (Marketing)
+        run: npm run check
+        
+      # 2. Core Backend (Express)
+      - name: Install Core Backend
+        working-directory: ./core-backend
+        run: npm ci
+      - name: Generate Prisma Client
+        working-directory: ./core-backend
+        run: npx prisma generate
+      - name: Lint Backend
+        working-directory: ./core-backend
+        run: npm run lint
+        
+      # 3. Core Dashboard (React)
+      - name: Install Core Dashboard
+        working-directory: ./core-dashboard
+        run: npm ci
+      - name: Build Dashboard
+        working-directory: ./core-dashboard
+        run: npm run build
+
+  # In a real environment, you would add a `deploy-backend` and `deploy-dashboard` 
+  # job here that pushes to Heroku, Vercel, or AWS.

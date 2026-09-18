@@ -1,0 +1,59 @@
+---
+interface Props {
+  size?: number;
+  mono?: boolean;
+}
+const { size = 30, mono = false } = Astro.props;
+// Gradient ids must be unique per instance or a second logo on the page reuses
+// the first one's fill after it is removed from the DOM.
+const id = 'cm-' + Math.random().toString(36).slice(2, 8);
+---
+
+<span class="wm" style={`--wm:${size}px`}>
+  <svg viewBox="0 0 40 40" role="img" aria-hidden="true" focusable="false">
+    <defs>
+      <linearGradient id={id} x1="8" y1="4" x2="32" y2="36" gradientUnits="userSpaceOnUse">
+        <stop offset="0" stop-color="#5df0a0" />
+        <stop offset="1" stop-color="#12a75c" />
+      </linearGradient>
+    </defs>
+    <!-- Outer sweep: a C opened to the right, thick and rounded. -->
+    <path
+      d="M31.5 10.6A14 14 0 1 0 31.5 29.4"
+      fill="none"
+      stroke={mono ? 'currentColor' : `url(#${id})`}
+      stroke-width="6.4"
+      stroke-linecap="round"
+    />
+    <!-- Inner counter-sweep, lighter, giving the mark its spin. -->
+    <path
+      d="M27.2 16.4A7.6 7.6 0 1 0 27.2 23.6"
+      fill="none"
+      stroke={mono ? 'currentColor' : `url(#${id})`}
+      stroke-width="4.2"
+      stroke-linecap="round"
+      opacity=".55"
+    />
+  </svg>
+  <b>clubmast</b>
+</span>
+
+<style>
+  .wm {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: inherit;
+  }
+  .wm svg {
+    width: var(--wm);
+    height: var(--wm);
+    flex: 0 0 auto;
+  }
+  .wm b {
+    font-weight: 800;
+    font-size: calc(var(--wm) * 0.82);
+    letter-spacing: -0.045em;
+    line-height: 1;
+  }
+</style>

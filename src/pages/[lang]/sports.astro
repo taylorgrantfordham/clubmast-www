@@ -1,0 +1,22 @@
+---
+import Base from '../../layouts/Base.astro';
+import Sports from '../../components/pages/Sports.astro';
+import { useTranslations, codes, defaultLang, type Lang } from '../../i18n/utils';
+
+export function getStaticPaths() {
+  return codes.filter((c) => c !== defaultLang).map((c) => ({ params: { lang: c } }));
+}
+
+const lang = Astro.params.lang as Lang;
+const t = useTranslations(lang);
+---
+
+<Base
+  lang={lang}
+  title={`${t('nav.sports')} — Clubmast`}
+  description={t('meta.home.desc')}
+  path="/sports"
+  active="sports"
+>
+  <Sports lang={lang} />
+</Base>

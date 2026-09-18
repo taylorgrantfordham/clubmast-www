@@ -1,0 +1,16 @@
+---
+import Base from '../../layouts/Base.astro';
+import Home from '../../components/Home.astro';
+import { useTranslations, codes, defaultLang, type Lang } from '../../i18n/utils';
+
+export function getStaticPaths() {
+  return codes.filter((code) => code !== defaultLang).map((code) => ({ params: { lang: code } }));
+}
+
+const lang = Astro.params.lang as Lang;
+const t = useTranslations(lang);
+---
+
+<Base lang={lang} title={t('meta.home.title')} description={t('meta.home.desc')} path="/">
+  <Home lang={lang} />
+</Base>

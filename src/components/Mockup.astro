@@ -1,0 +1,336 @@
+---
+/**
+ * A club site, drawn rather than screenshotted.
+ *
+ * Inline SVG so it is crisp at any size, themes with the rest of the page, and
+ * costs no network request — which matters on a hero that is meant to prove the
+ * product is fast.
+ */
+interface Props {
+  domain?: string;
+  club?: string;
+}
+const { domain = 'chelmsfordcityfc.co.uk', club = 'Chelmsford City FC' } = Astro.props;
+---
+
+<figure class="mk">
+  <svg
+    viewBox="0 0 760 480"
+    role="img"
+    aria-label={`A club website for ${club}, showing the next fixture, recent results and the league table.`}
+  >
+    <!-- window -->
+    <rect class="win" x="0.5" y="0.5" width="759" height="479" rx="14" />
+    <rect class="bar" x="0.5" y="0.5" width="759" height="40" rx="14" />
+    <rect class="bar-sq" x="0.5" y="26" width="759" height="15" />
+    <g class="dots">
+      <circle cx="24" cy="20.5" r="4.5" />
+      <circle cx="41" cy="20.5" r="4.5" />
+      <circle cx="58" cy="20.5" r="4.5" />
+    </g>
+    <rect class="url" x="82" y="10" width="300" height="21" rx="10.5" />
+    <text class="url-t" x="96" y="25">
+      {domain}
+    </text>
+    <g class="lock">
+      <path d="M90.5 17.5v-2a2.2 2.2 0 0 1 4.4 0v2" />
+      <rect x="89" y="17.5" width="7.4" height="6" rx="1.4" />
+    </g>
+
+    <!-- club header -->
+    <rect class="hero" x="1" y="41" width="758" height="104" />
+    <circle class="crest" cx="52" cy="93" r="24" />
+    <!-- The club's own mark: a mast with a pennant, not a play glyph. -->
+    <line
+      class="crest-m"
+      x1="45"
+      y1="81"
+      x2="45"
+      y2="105"
+      stroke-width="2.4"
+      stroke-linecap="round"
+    />
+    <path class="crest-i" d="M46.6 82.4 L62 86.4 L46.6 90.4 Z" />
+    <path class="crest-i2" d="M46.6 94 L57 96.6 L46.6 99.2 Z" />
+    <text class="club" x="90" y="88">
+      {club}
+    </text>
+    <text class="est" x="90" y="107">
+      Essex Senior League · Est. 1878
+    </text>
+    <g class="nav">
+      <text x="520" y="98">
+        Fixtures
+      </text>
+      <text x="586" y="98">
+        Teams
+      </text>
+      <text x="640" y="98">
+        News
+      </text>
+      <text x="692" y="98">
+        Shop
+      </text>
+    </g>
+
+    <!-- next fixture -->
+    <rect class="card lit" x="28" y="168" width="330" height="150" rx="11" />
+    <text class="lbl accent" x="48" y="194">
+      NEXT FIXTURE
+    </text>
+    <text class="big" x="48" y="234">
+      Saturday, 15:00
+    </text>
+    <text class="sub" x="48" y="256">
+      Melbourne Stadium
+    </text>
+    <g class="teams">
+      <text class="tm" x="48" y="292">
+        Chelmsford City
+      </text>
+      <text class="vs" x="196" y="292">
+        v
+      </text>
+      <text class="tm" x="216" y="292">
+        Bowers &amp; Pitsea
+      </text>
+    </g>
+
+    <!-- results -->
+    <rect class="card" x="378" y="168" width="354" height="150" rx="11" />
+    <text class="lbl" x="398" y="194">
+      RECENT RESULTS
+    </text>
+    <g class="row">
+      <text x="398" y="224">
+        Hashtag United
+      </text>
+      <text class="sc win" x="700" y="224" text-anchor="end">
+        2–3
+      </text>
+      <text x="398" y="254">
+        Basildon Town
+      </text>
+      <text class="sc win" x="700" y="254" text-anchor="end">
+        4–0
+      </text>
+      <text x="398" y="284">
+        Heybridge Swifts
+      </text>
+      <text class="sc draw" x="700" y="284" text-anchor="end">
+        1–1
+      </text>
+    </g>
+
+    <!-- table -->
+    <rect class="card" x="28" y="336" width="704" height="122" rx="11" />
+    <text class="lbl" x="48" y="362">
+      LEAGUE TABLE
+    </text>
+    <g class="th">
+      <text x="48" y="386">
+        #
+      </text>
+      <text x="82" y="386">
+        Club
+      </text>
+      <text x="580" y="386" text-anchor="end">
+        P
+      </text>
+      <text x="628" y="386" text-anchor="end">
+        GD
+      </text>
+      <text x="700" y="386" text-anchor="end">
+        Pts
+      </text>
+    </g>
+    <g class="tr">
+      <text x="48" y="412">
+        1
+      </text>
+      <text x="82" y="412">
+        Hornchurch
+      </text>
+      <text x="580" y="412" text-anchor="end">
+        24
+      </text>
+      <text x="628" y="412" text-anchor="end">
+        +31
+      </text>
+      <text class="pts" x="700" y="412" text-anchor="end">
+        52
+      </text>
+    </g>
+    <rect class="hl" x="36" y="422" width="688" height="26" rx="6" />
+    <g class="tr me">
+      <text x="48" y="440">
+        2
+      </text>
+      <text x="82" y="440">
+        Chelmsford City
+      </text>
+      <text x="580" y="440" text-anchor="end">
+        24
+      </text>
+      <text x="628" y="440" text-anchor="end">
+        +27
+      </text>
+      <text class="pts" x="700" y="440" text-anchor="end">
+        49
+      </text>
+    </g>
+  </svg>
+</figure>
+
+<style>
+  .mk {
+    margin: 0;
+    position: relative;
+  }
+  .mk svg {
+    width: 100%;
+    height: auto;
+    border-radius: 16px;
+    filter: drop-shadow(0 30px 60px rgb(0 0 0 / 38%));
+  }
+
+  .win {
+    fill: var(--surface);
+    stroke: var(--line-2);
+  }
+  .bar,
+  .bar-sq {
+    fill: var(--surface-2);
+  }
+  .dots circle {
+    fill: var(--line-2);
+  }
+  .url {
+    fill: var(--bg);
+    stroke: var(--line);
+    stroke-width: 1;
+  }
+  .url-t {
+    fill: var(--ink-2);
+    font-family: var(--mono);
+    font-size: 11px;
+  }
+  .lock {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 1.3;
+  }
+
+  .hero {
+    fill: var(--surface-2);
+  }
+  .crest {
+    fill: var(--accent-glow);
+    stroke: var(--accent);
+    stroke-width: 1.4;
+  }
+  .crest-m {
+    stroke: var(--accent);
+  }
+  .crest-i {
+    fill: var(--accent);
+  }
+  .crest-i2 {
+    fill: var(--accent);
+    opacity: 0.45;
+  }
+  .club {
+    fill: var(--ink);
+    font-size: 21px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+  }
+  .est {
+    fill: var(--ink-3);
+    font-size: 11.5px;
+    font-family: var(--mono);
+  }
+  .nav text {
+    fill: var(--ink-2);
+    font-size: 12.5px;
+    font-weight: 600;
+  }
+
+  .card {
+    fill: var(--bg-2);
+    stroke: var(--line);
+    stroke-width: 1;
+  }
+  .card.lit {
+    stroke: color-mix(in oklab, var(--accent) 45%, transparent);
+  }
+
+  .lbl {
+    fill: var(--ink-3);
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+  }
+  .lbl.accent {
+    fill: var(--accent);
+  }
+  .big {
+    fill: var(--ink);
+    font-size: 26px;
+    font-weight: 800;
+    letter-spacing: -0.035em;
+  }
+  .sub {
+    fill: var(--ink-2);
+    font-size: 13px;
+  }
+  .tm {
+    fill: var(--ink);
+    font-size: 13.5px;
+    font-weight: 650;
+  }
+  .vs {
+    fill: var(--ink-3);
+    font-size: 12px;
+    font-style: italic;
+  }
+
+  .row text {
+    fill: var(--ink-2);
+    font-size: 13px;
+  }
+  .sc {
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .sc.win {
+    fill: var(--accent);
+  }
+  .sc.draw {
+    fill: var(--ink-3);
+  }
+
+  .th text {
+    fill: var(--ink-3);
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+  }
+  .tr text {
+    fill: var(--ink-2);
+    font-size: 13px;
+  }
+  .tr .pts {
+    fill: var(--ink);
+    font-weight: 700;
+    font-family: var(--mono);
+  }
+  .hl {
+    fill: var(--accent-glow);
+  }
+  .tr.me text {
+    fill: var(--ink);
+    font-weight: 650;
+  }
+</style>

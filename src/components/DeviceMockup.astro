@@ -1,0 +1,482 @@
+---
+/**
+ * Phone and dashboard, overlapping — the product proof in the hero.
+ *
+ * Drawn rather than screenshotted: it stays crisp at any size, costs no network
+ * request on the most performance-sensitive part of the page, and can be edited
+ * as the real product changes instead of going stale the day it ships.
+ *
+ * The dashboard deliberately has NO sidebar. An earlier version drew one, and
+ * because the phone sits alongside rather than over it you got two clubmast
+ * marks and two identical nav lists thirty pixels apart — it read as a broken
+ * render. The phone carries the navigation; the desktop carries the work.
+ */
+const appItems = ['Latest news', 'Fixtures & results', 'Team selection', 'Payments', 'Messages'];
+---
+
+<div class="dev">
+  <svg
+    viewBox="0 0 1120 660"
+    role="img"
+    aria-label="The clubmast dashboard for a club called Riverside FC, showing member, fixture and message counts, upcoming fixtures and recent activity, alongside the mobile app."
+  >
+    <defs>
+      <clipPath id="scr-clip">
+        <rect x="9" y="9" width="254" height="542" rx="31" />
+      </clipPath>
+    </defs>
+
+    <!-- ============================================ dashboard (behind) -->
+    <g class="win-g" transform="translate(120 0)">
+      <rect class="win" x="0" y="0" width="1000" height="560" rx="16" />
+
+      <!-- window chrome, in place of a sidebar -->
+      <path
+        class="chrome"
+        d="M0 16 A16 16 0 0 1 16 0 L984 0 A16 16 0 0 1 1000 16 L1000 48 L0 48 Z"
+      />
+      <rect class="hair" x="0" y="47" width="1000" height="1" />
+      <circle class="tl" cx="26" cy="24" r="5" />
+      <circle class="tl" cx="46" cy="24" r="5" />
+      <circle class="tl" cx="66" cy="24" r="5" />
+      <circle class="bm" cx="102" cy="24" r="8" />
+      <text class="wb" x="118" y="29">
+        clubmast
+      </text>
+
+      <rect class="pill" x="748" y="11" width="132" height="26" rx="13" />
+      <circle class="crest" cx="766" cy="24" r="8" />
+      <text class="pt" x="782" y="28">
+        Riverside FC
+      </text>
+
+      <!-- greeting -->
+      <text class="h" x="180" y="106">
+        Welcome back, Riverside FC
+      </text>
+      <text class="sub" x="180" y="132">
+        Here&#8217;s what&#8217;s happening at your club today.
+      </text>
+
+      <!-- stat cards -->
+      <g>
+        <rect class="card" x="180" y="158" width="219" height="106" rx="12" />
+        <text class="cl" x="200" y="190">
+          Members
+        </text>
+        <text class="cv" x="200" y="232">
+          248
+        </text>
+        <text class="cd up" x="200" y="252">
+          &#9650; +12% this month
+        </text>
+
+        <rect class="card" x="420" y="158" width="219" height="106" rx="12" />
+        <text class="cl" x="440" y="190">
+          Fixtures
+        </text>
+        <text class="cv" x="440" y="232">
+          6
+        </text>
+        <text class="cd" x="440" y="252">
+          This week
+        </text>
+
+        <rect class="card" x="660" y="158" width="219" height="106" rx="12" />
+        <text class="cl" x="680" y="190">
+          Messages
+        </text>
+        <text class="cv" x="680" y="232">
+          23
+        </text>
+        <text class="cd flag" x="680" y="252">
+          &#9679; 4 unread
+        </text>
+      </g>
+
+      <!-- upcoming fixtures -->
+      <rect class="card" x="180" y="288" width="440" height="236" rx="12" />
+      <text class="cl" x="200" y="316">
+        Upcoming fixtures
+      </text>
+      <g>
+        <rect class="row" x="194" y="330" width="412" height="56" rx="9" />
+        <circle class="crest" cx="222" cy="358" r="14" />
+        <text class="rt" x="250" y="353">
+          Riverside FC vs Oakwood FC
+        </text>
+        <text class="rs" x="250" y="371">
+          Sat 24 May &#183; 15:00 &#183; First team &#183; Home
+        </text>
+
+        <rect class="row" x="194" y="394" width="412" height="56" rx="9" />
+        <circle class="crest" cx="222" cy="422" r="14" />
+        <text class="rt" x="250" y="417">
+          Riverside FC vs Westfield Rangers
+        </text>
+        <text class="rs" x="250" y="435">
+          Sun 26 May &#183; 11:00 &#183; U18s &#183; Away
+        </text>
+
+        <rect class="row" x="194" y="458" width="412" height="56" rx="9" />
+        <circle class="crest" cx="222" cy="486" r="14" />
+        <text class="rt" x="250" y="481">
+          Marsden Athletic vs Riverside FC
+        </text>
+        <text class="rs" x="250" y="499">
+          Wed 29 May &#183; 19:45 &#183; Reserves &#183; Away
+        </text>
+      </g>
+
+      <!-- recent activity -->
+      <rect class="card" x="640" y="288" width="240" height="236" rx="12" />
+      <text class="cl" x="660" y="316">
+        Recent activity
+      </text>
+      <g class="act">
+        <circle class="dot" cx="673" cy="350" r="11" />
+        <text class="at" x="696" y="346">
+          New member joined
+        </text>
+        <text class="as" x="696" y="362">
+          Jamie Taylor &#183; 2 hours ago
+        </text>
+
+        <circle class="dot" cx="673" cy="410" r="11" />
+        <text class="at" x="696" y="406">
+          Subs payment received
+        </text>
+        <text class="as" x="696" y="422">
+          &#163;120.00 &#183; 4 hours ago
+        </text>
+
+        <circle class="dot" cx="673" cy="470" r="11" />
+        <text class="at" x="696" y="466">
+          Squad announced
+        </text>
+        <text class="as" x="696" y="482">
+          First team &#183; 5 hours ago
+        </text>
+      </g>
+    </g>
+
+    <!-- =============================================== phone (in front) -->
+    <!-- Sits over the dashboard's lower-left corner and drops below its floor,
+         so the two read as stacked planes rather than two panels side by side. -->
+    <g class="ph-g" transform="translate(8 92)">
+      <rect class="ph" x="0" y="0" width="272" height="560" rx="38" />
+      <rect class="scr" x="9" y="9" width="254" height="542" rx="31" />
+      <rect class="notch" x="102" y="18" width="68" height="7" rx="3.5" />
+
+      <g clip-path="url(#scr-clip)">
+        <!-- app header -->
+        <g class="ap-h">
+          <circle class="bm sm" cx="34" cy="48" r="7" />
+          <text x="48" y="53">
+            clubmast
+          </text>
+          <circle class="ic" cx="216" cy="48" r="7" />
+          <circle class="ic" cx="238" cy="48" r="7" />
+        </g>
+
+        <!-- club row -->
+        <rect class="ap-club" x="20" y="70" width="232" height="44" rx="11" />
+        <circle class="crest lg" cx="44" cy="92" r="14" />
+        <text class="ap-cn" x="68" y="97">
+          Riverside FC
+        </text>
+
+        <!-- app nav -->
+        {appItems.map((n, i) => (
+          <g>
+            <rect class="ap-row" x="20" y={128 + i * 40} width="232" height="34" rx="9" />
+            <rect class="ap-ic" x="32" y={137 + i * 40} width="16" height="16" rx="5" />
+            <text class="ap-t" x="58" y={150 + i * 40}>
+              {n}
+            </text>
+          </g>
+        ))}
+
+        <!-- next match card, where a photo sits in the real app -->
+        <rect class="ap-photo" x="20" y="336" width="232" height="136" rx="12" />
+        <g class="ap-ph-i">
+          <circle cx="136" cy="382" r="21" />
+          <path d="M136 370 l10 6 -10 6 z" />
+        </g>
+        <text class="ap-pt" x="34" y="428">
+          NEXT MATCH
+        </text>
+        <text class="ap-ps" x="34" y="446">
+          Riverside FC vs Oakwood FC
+        </text>
+        <text class="ap-ps dim" x="34" y="461">
+          Sat 24 May &#183; 15:00 &#183; Home
+        </text>
+
+        <!-- tab bar -->
+        <rect class="ap-tabs" x="9" y="486" width="254" height="65" />
+        <rect class="hair d" x="9" y="486" width="254" height="1" />
+        <g class="tab">
+          <circle class="ti on" cx="52" cy="512" r="6" />
+          <text class="tt on" x="52" y="532">
+            Home
+          </text>
+          <circle class="ti" cx="112" cy="512" r="6" />
+          <text class="tt" x="112" y="532">
+            Fixtures
+          </text>
+          <circle class="ti" cx="172" cy="512" r="6" />
+          <text class="tt" x="172" y="532">
+            Messages
+          </text>
+          <circle class="ti" cx="228" cy="512" r="6" />
+          <text class="tt" x="228" y="532">
+            More
+          </text>
+        </g>
+      </g>
+    </g>
+  </svg>
+</div>
+
+<style>
+  /* A soft mint bloom behind the cluster. Without it the devices sit flat on a
+     dark photograph with nothing to lift them off it. */
+  .dev {
+    position: relative;
+  }
+  .dev::before {
+    content: '';
+    position: absolute;
+    z-index: 0;
+    inset: -14% -10% -6% -6%;
+    background: radial-gradient(58% 54% at 52% 44%, rgb(61 220 132 / 15%), transparent 72%);
+    pointer-events: none;
+  }
+  .dev svg {
+    position: relative;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+
+  /* ---- dashboard ---- */
+  .win-g {
+    filter: drop-shadow(0 30px 64px rgb(0 0 0 / 50%));
+  }
+  .win {
+    fill: #ffffff;
+  }
+  .chrome {
+    fill: #eef4f0;
+  }
+  .hair {
+    fill: #e2ebe6;
+  }
+  .hair.d {
+    fill: #1a2621;
+  }
+  .tl {
+    fill: #d2ded7;
+  }
+  .wb {
+    fill: #0d1a15;
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+  }
+  .bm {
+    fill: none;
+    stroke: var(--mint);
+    stroke-width: 3.4;
+    stroke-dasharray: 34 12;
+  }
+  .bm.sm {
+    stroke-width: 3;
+    stroke-dasharray: 29 11;
+  }
+  .pill {
+    fill: #ffffff;
+    stroke: #e2ebe6;
+    stroke-width: 1;
+  }
+  .pt {
+    fill: #0d1a15;
+    font-size: 11.5px;
+    font-weight: 650;
+  }
+
+  .h {
+    fill: #0d1a15;
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: -0.038em;
+  }
+  .sub {
+    fill: #7b8b83;
+    font-size: 13px;
+  }
+
+  .card {
+    fill: #ffffff;
+    stroke: #e6ede9;
+    stroke-width: 1.2;
+  }
+  .cl {
+    fill: #7b8b83;
+    font-size: 13px;
+    font-weight: 620;
+  }
+  .cv {
+    fill: #0d1a15;
+    font-size: 40px;
+    font-weight: 800;
+    letter-spacing: -0.05em;
+  }
+  .cd {
+    fill: #96a49c;
+    font-size: 11.5px;
+  }
+  .cd.up {
+    fill: #17a45c;
+    font-weight: 620;
+  }
+  .cd.flag {
+    fill: #d9683a;
+    font-weight: 620;
+  }
+
+  .row {
+    fill: #f6faf8;
+  }
+  .crest {
+    fill: #e7f6ee;
+    stroke: var(--mint-2);
+    stroke-width: 1.4;
+  }
+  .crest.lg {
+    fill: rgb(61 220 132 / 16%);
+  }
+  .rt {
+    fill: #0d1a15;
+    font-size: 13px;
+    font-weight: 680;
+    letter-spacing: -0.015em;
+  }
+  .rs {
+    fill: #8b9990;
+    font-size: 11px;
+  }
+
+  .act .dot {
+    fill: #edf4f1;
+  }
+  .at {
+    fill: #0d1a15;
+    font-size: 12.5px;
+    font-weight: 650;
+    letter-spacing: -0.015em;
+  }
+  .as {
+    fill: #93a199;
+    font-size: 10.5px;
+  }
+
+  /* ---- phone ---- */
+  /* Two shadows: a wide ambient one and a tight contact one, so the phone reads
+     as sitting above the dashboard rather than pasted beside it. */
+  .ph-g {
+    filter: drop-shadow(0 40px 60px rgb(0 0 0 / 55%)) drop-shadow(0 6px 14px rgb(0 0 0 / 45%));
+  }
+  .ph {
+    fill: #16211c;
+    stroke: #33443b;
+    stroke-width: 1.6;
+  }
+  .scr {
+    fill: #0b1512;
+  }
+  .notch {
+    fill: #253028;
+  }
+
+  .ap-h text {
+    fill: #f4f8f6;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+  }
+  .ic {
+    fill: #223029;
+  }
+
+  .ap-club {
+    fill: #13241d;
+  }
+  .ap-cn {
+    fill: #f4f8f6;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  .ap-row {
+    fill: #101c17;
+  }
+  .ap-ic {
+    fill: rgb(61 220 132 / 20%);
+    stroke: var(--mint);
+    stroke-width: 1;
+  }
+  .ap-t {
+    fill: #cfdcd6;
+    font-size: 11.5px;
+    font-weight: 560;
+  }
+
+  .ap-photo {
+    fill: #172b22;
+    stroke: #24382e;
+    stroke-width: 1.2;
+  }
+  .ap-ph-i circle {
+    fill: rgb(61 220 132 / 18%);
+  }
+  .ap-ph-i path {
+    fill: var(--mint);
+  }
+  .ap-pt {
+    fill: var(--mint);
+    font-size: 9.5px;
+    font-weight: 750;
+    letter-spacing: 0.11em;
+  }
+  .ap-ps {
+    fill: #cfdcd6;
+    font-size: 11.5px;
+    font-weight: 600;
+  }
+  .ap-ps.dim {
+    fill: #8b9f95;
+    font-weight: 400;
+    font-size: 10.5px;
+  }
+
+  .ap-tabs {
+    fill: #0e1815;
+  }
+  .tab text {
+    text-anchor: middle;
+    font-size: 8.4px;
+    fill: #6d7f76;
+  }
+  .tab .ti {
+    fill: #2a3a32;
+  }
+  .tab .ti.on {
+    fill: var(--mint);
+  }
+  .tab .tt.on {
+    fill: var(--mint);
+  }
+</style>

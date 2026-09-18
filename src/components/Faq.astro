@@ -1,0 +1,127 @@
+---
+import { useSite } from '../i18n/site';
+import type { Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+  tone?: 'dark' | 'light';
+}
+const { lang, tone = 'light' } = Astro.props;
+const s = useSite(lang);
+
+/**
+ * Native <details> rather than a scripted accordion: keyboard and screen-reader
+ * behaviour is correct for free, it works before hydration because there is no
+ * hydration, and `name` gives single-open behaviour with no JavaScript at all.
+ */
+const items = [
+  { q: s('faq.1q'), a: s('faq.1a') },
+  { q: s('faq.2q'), a: s('faq.2a') },
+  { q: s('faq.3q'), a: s('faq.3b') },
+  { q: s('faq.4q'), a: s('faq.4a') },
+  { q: s('faq.5q'), a: s('faq.5a') },
+];
+---
+
+<section class:list={['band', tone === 'dark' ? 'on-dark' : 'on-light']}>
+  <div class="shell inner">
+    <header class="head reveal">
+      <p class="kicker">FAQ</p>
+      <h2 class="h2">{s('faq.title')}</h2>
+    </header>
+
+    <div class="list reveal">
+      {items.map((it, i) => (
+        <details name="faq" open={i === 0}>
+          <summary>
+            <span>{it.q}</span>
+            <span class="mk" aria-hidden="true"></span>
+          </summary>
+          <div class="body">
+            <p>{it.a}</p>
+          </div>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .inner {
+    display: grid;
+    gap: clamp(28px, 4vw, 60px);
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 940px) {
+    .inner {
+      grid-template-columns: 0.8fr 1.2fr;
+      align-items: start;
+    }
+  }
+  .head .h2 {
+    margin-top: 16px;
+    max-width: 14ch;
+  }
+
+  .list {
+    display: grid;
+    gap: 0;
+    border-top: 1px solid var(--line);
+  }
+
+  details {
+    border-bottom: 1px solid var(--line);
+  }
+  summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 22px 4px;
+    cursor: pointer;
+    list-style: none;
+    font-size: clamp(16px, 1.7vw, 19px);
+    font-weight: 650;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+  summary::-webkit-details-marker {
+    display: none;
+  }
+  summary:hover {
+    color: var(--accent);
+  }
+
+  .mk {
+    position: relative;
+    width: 15px;
+    height: 15px;
+    flex: 0 0 auto;
+  }
+  .mk::before,
+  .mk::after {
+    content: '';
+    position: absolute;
+    inset: 50% 0 auto;
+    height: 1.8px;
+    background: var(--accent);
+    border-radius: 2px;
+    transition: transform 0.18s ease;
+  }
+  .mk::after {
+    transform: rotate(90deg);
+  }
+  details[open] .mk::after {
+    transform: rotate(0deg);
+  }
+
+  .body {
+    padding: 0 4px 24px;
+  }
+  .body p {
+    color: var(--ink-2);
+    font-size: 15.5px;
+    line-height: 1.55;
+    max-width: 62ch;
+  }
+</style>

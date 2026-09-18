@@ -1,0 +1,44 @@
+---
+/** Line icons at a shared 24-grid, 1.8 stroke. Inline so they inherit colour
+ *  and cost no request. */
+interface Props {
+  name: string;
+}
+const { name } = Astro.props;
+
+const paths: Record<string, string> = {
+  members:
+    'M16 19v-1.5a3.5 3.5 0 0 0-3.5-3.5h-5A3.5 3.5 0 0 0 4 17.5V19 M10 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7 M20 19v-1.5a3.5 3.5 0 0 0-2.6-3.4 M15.5 4.2a3.5 3.5 0 0 1 0 6.6',
+  fixtures:
+    'M4 6.5A1.5 1.5 0 0 1 5.5 5h13A1.5 1.5 0 0 1 20 6.5v12A1.5 1.5 0 0 1 18.5 20h-13A1.5 1.5 0 0 1 4 18.5z M8 3v4 M16 3v4 M4 10h16 M8.5 14h2 M13.5 14h2 M8.5 17h2',
+  message:
+    'M20 12.5a7.5 7.5 0 0 1-10.9 6.7L4 20.5l1.4-4.9A7.5 7.5 0 1 1 20 12.5z M9 11.5h6 M9 14.5h3.5',
+  payments:
+    'M3.5 8.5A1.5 1.5 0 0 1 5 7h14a1.5 1.5 0 0 1 1.5 1.5v7A1.5 1.5 0 0 1 19 17H5a1.5 1.5 0 0 1-1.5-1.5z M3.5 11h17 M7 14.3h3',
+  website:
+    'M12 20.5a8.5 8.5 0 1 0 0-17 8.5 8.5 0 0 0 0 17z M3.5 12h17 M12 3.5c2.2 2.4 3.3 5.3 3.3 8.5S14.2 18.1 12 20.5c-2.2-2.4-3.3-5.3-3.3-8.5S9.8 5.9 12 3.5z',
+  sports:
+    'M12 20.5a8.5 8.5 0 1 0 0-17 8.5 8.5 0 0 0 0 17z M12 7.6l3.7 2.7-1.4 4.4H9.7l-1.4-4.4z M12 3.6v4 M20 10.4l-4.3 3 M17 19.6l-2.7-4.9 M7 19.6l2.7-4.9 M4 10.4l4.3 3',
+  play: 'M8.5 6.8v10.4l8.5-5.2z',
+  arrow: 'M5 12h13 M13 6.5l5.5 5.5-5.5 5.5',
+  trophy:
+    'M7.5 4h9v5a4.5 4.5 0 0 1-9 0z M7.5 5.5H5A2 2 0 0 0 5 9.5h2.5 M16.5 5.5H19a2 2 0 0 1 0 4h-2.5 M12 13.5V17 M8.8 20h6.4 M9.6 20l.6-3h3.6l.6 3',
+  star: 'M12 3.8l2.6 5.3 5.8.85-4.2 4.1 1 5.8-5.2-2.75-5.2 2.75 1-5.8-4.2-4.1 5.8-.85z',
+};
+
+const d = paths[name] ?? paths.arrow;
+const filled = name === 'play';
+---
+
+<svg viewBox="0 0 24 24" fill="none" role="img" aria-hidden="true" focusable="false">
+  {d.split(' M').map((seg, i) => (
+    <path
+      d={i === 0 ? seg : 'M' + seg}
+      stroke={filled ? 'none' : 'currentColor'}
+      fill={filled ? 'currentColor' : 'none'}
+      stroke-width="1.8"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  ))}
+</svg>

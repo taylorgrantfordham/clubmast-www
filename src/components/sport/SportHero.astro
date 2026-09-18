@@ -1,0 +1,185 @@
+---
+import type { SportPage } from '../../data/sport-pages';
+import DeviceMockup from '../DeviceMockup.astro';
+import Icon from '../Icon.astro';
+import { useSite } from '../../i18n/site';
+import { defaultLang } from '../../i18n/utils';
+
+interface Props {
+  sport: SportPage;
+}
+const { sport } = Astro.props;
+const s = useSite(defaultLang);
+const img = `/img/${sport.key}`;
+---
+
+<section class="hero on-dark">
+  <!-- Photograph as a full-bleed backdrop, not a boxed image, so the devices
+       can sit over it without either element reading as cropped. -->
+  <div class="shot" aria-hidden="true">
+    <img
+      src={`${img}/hero.webp`}
+      alt=""
+      width="1536"
+      height="864"
+      loading="eager"
+      decoding="async"
+      fetchpriority="high"
+    />
+  </div>
+  <span class="veil" aria-hidden="true"></span>
+
+  <svg class="chev" viewBox="0 0 600 700" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
+    <path d="M180 0 L420 0 L250 350 L420 700 L180 700 L10 350 Z" fill="var(--mint)" opacity=".13" />
+    <path
+      d="M330 120 L520 120 L385 380 L520 640 L330 640 L195 380 Z"
+      fill="var(--mint)"
+      opacity=".07"
+    />
+  </svg>
+
+  <div class="shell in">
+    <div class="copy">
+      <p class="kicker">{sport.kicker}</p>
+      <h1 class="display">
+        {sport.h1a}
+        <span class="alt">{sport.h1b}</span>
+      </h1>
+      <p class="lede">{sport.body}</p>
+      <div class="acts">
+        <a class="btn" href="#claim">
+          {s('hero.primary')}
+          <span class="arw">
+            <Icon name="arrow" />
+          </span>
+        </a>
+        <a class="btn btn--ghost" href="#features">
+          {s('hero.secondary')}
+          <span class="pl">
+            <Icon name="play" />
+          </span>
+        </a>
+      </div>
+    </div>
+
+    <div class="devices">
+      <DeviceMockup />
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    overflow: clip;
+    isolation: isolate;
+  }
+
+  .shot {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+  .shot img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 38%;
+  }
+
+  /* Two washes: a hard left-to-right ramp so the headline always has ground to
+     sit on, and a floor gradient so the section ends rather than stops. */
+  .veil {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background:
+            /* Pool of shade under the device cluster: white UI on a busy stadium
+               photograph has nothing to sit against without it. */
+      radial-gradient(46% 58% at 70% 56%, rgb(4 11 9 / 62%), transparent 72%),
+      linear-gradient(
+        90deg,
+        #060f0c 2%,
+        rgb(6 15 12 / 80%) 28%,
+        rgb(6 15 12 / 26%) 56%,
+        rgb(6 15 12 / 16%) 100%
+      ),
+      linear-gradient(0deg, #060f0c 0%, transparent 34%);
+  }
+
+  .chev {
+    position: absolute;
+    inset: -14% -6% auto auto;
+    width: min(50vw, 620px);
+    height: 130%;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .in {
+    position: relative;
+    z-index: 3;
+    display: grid;
+    gap: 32px;
+    grid-template-columns: 1fr;
+    padding-block: clamp(44px, 6vw, 82px) clamp(44px, 6vw, 78px);
+    align-items: center;
+  }
+  @media (min-width: 1000px) {
+    .in {
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      min-height: 640px;
+    }
+  }
+
+  .copy {
+    max-width: 34rem;
+  }
+  .display {
+    margin: 18px 0 22px;
+  }
+  .lede {
+    margin-bottom: 32px;
+    max-width: 30rem;
+  }
+  .acts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .acts .arw,
+  .acts .pl {
+    display: inline-flex;
+    width: 17px;
+    height: 17px;
+  }
+  .btn--ghost .pl {
+    color: var(--mint);
+  }
+
+  .devices {
+    position: relative;
+  }
+  @media (min-width: 1000px) {
+    /* Runs off the right edge on purpose. Stopping short of it left an
+             indecisive gutter that read as a clipped image rather than a bleed.
+             The SVG carries 60 units of blank gutter so only white leaves frame. */
+    /* Anchored from the middle of the shell, not by percentage of it: the
+             cluster then clears the copy column by the same margin at every width,
+             instead of creeping over the headline as the viewport grows. */
+    .devices {
+      position: absolute;
+      width: auto;
+      left: calc(50% + 16px);
+      right: calc((100% - 100vw) / 2 - 40px);
+      bottom: clamp(16px, 2.6vw, 40px);
+    }
+  }
+  @media (max-width: 999px) {
+    .devices {
+      margin-top: 22px;
+    }
+  }
+</style>

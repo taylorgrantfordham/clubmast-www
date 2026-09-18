@@ -1,0 +1,208 @@
+import type { Lang } from '../i18n/ui';
+
+type Names = Partial<Record<Lang, string>> & { en: string };
+export interface Engine {
+  key: string;
+  names: Names;
+}
+
+/** The twelve engines, as shown on the marketing site. Short labels translate cleanly. */
+export const engines: Engine[] = [
+  {
+    key: 'members',
+    names: {
+      en: 'Members',
+      ga: 'Baill',
+      cy: 'Aelodau',
+      nl: 'Leden',
+      de: 'Mitglieder',
+      sv: 'Medlemmar',
+      da: 'Medlemmer',
+      nb: 'Medlemmer',
+      fr: 'Adhérents',
+      es: 'Socios',
+      it: 'Soci',
+    },
+  },
+  {
+    key: 'compliance',
+    names: {
+      en: 'Compliance',
+      ga: 'Comhlíonadh',
+      cy: 'Cydymffurfio',
+      nl: 'Naleving',
+      de: 'Nachweise',
+      sv: 'Efterlevnad',
+      da: 'Compliance',
+      nb: 'Etterlevelse',
+      fr: 'Conformité',
+      es: 'Cumplimiento',
+      it: 'Conformità',
+    },
+  },
+  {
+    key: 'competition',
+    names: {
+      en: 'Competition',
+      ga: 'Comórtas',
+      cy: 'Cystadleuaeth',
+      nl: 'Competitie',
+      de: 'Wettbewerb',
+      sv: 'Tävling',
+      da: 'Turnering',
+      nb: 'Konkurranse',
+      fr: 'Compétition',
+      es: 'Competición',
+      it: 'Competizione',
+    },
+  },
+  {
+    key: 'selection',
+    names: {
+      en: 'Selection',
+      ga: 'Roghnú',
+      cy: 'Dewis',
+      nl: 'Opstelling',
+      de: 'Aufstellung',
+      sv: 'Uttagning',
+      da: 'Udtagelse',
+      nb: 'Uttak',
+      fr: 'Sélection',
+      es: 'Convocatorias',
+      it: 'Convocazioni',
+    },
+  },
+  {
+    key: 'facilities',
+    names: {
+      en: 'Facilities',
+      ga: 'Áiseanna',
+      cy: 'Cyfleusterau',
+      nl: 'Accommodatie',
+      de: 'Anlagen',
+      sv: 'Anläggningar',
+      da: 'Faciliteter',
+      nb: 'Anlegg',
+      fr: 'Installations',
+      es: 'Instalaciones',
+      it: 'Impianti',
+    },
+  },
+  {
+    key: 'programmes',
+    names: {
+      en: 'Programmes',
+      ga: 'Cláir',
+      cy: 'Rhaglenni',
+      nl: 'Cursussen',
+      de: 'Kurse',
+      sv: 'Program',
+      da: 'Programmer',
+      nb: 'Programmer',
+      fr: 'Programmes',
+      es: 'Programas',
+      it: 'Programmi',
+    },
+  },
+  {
+    key: 'events',
+    names: {
+      en: 'Events',
+      ga: 'Imeachtaí',
+      cy: 'Digwyddiadau',
+      nl: 'Evenementen',
+      de: 'Veranstaltungen',
+      sv: 'Evenemang',
+      da: 'Arrangementer',
+      nb: 'Arrangementer',
+      fr: 'Événements',
+      es: 'Eventos',
+      it: 'Eventi',
+    },
+  },
+  {
+    key: 'money',
+    names: {
+      en: 'Money',
+      ga: 'Airgead',
+      cy: 'Arian',
+      nl: 'Financiën',
+      de: 'Finanzen',
+      sv: 'Ekonomi',
+      da: 'Økonomi',
+      nb: 'Økonomi',
+      fr: 'Finances',
+      es: 'Finanzas',
+      it: 'Finanze',
+    },
+  },
+  {
+    key: 'equipment',
+    names: {
+      en: 'Equipment',
+      ga: 'Trealamh',
+      cy: 'Offer',
+      nl: 'Materiaal',
+      de: 'Ausrüstung',
+      sv: 'Utrustning',
+      da: 'Udstyr',
+      nb: 'Utstyr',
+      fr: 'Matériel',
+      es: 'Material',
+      it: 'Attrezzatura',
+    },
+  },
+  {
+    key: 'progress',
+    names: {
+      en: 'Progress',
+      ga: 'Dul chun cinn',
+      cy: 'Cynnydd',
+      nl: 'Voortgang',
+      de: 'Fortschritt',
+      sv: 'Utveckling',
+      da: 'Udvikling',
+      nb: 'Utvikling',
+      fr: 'Progression',
+      es: 'Progresión',
+      it: 'Progressione',
+    },
+  },
+  {
+    key: 'website',
+    names: {
+      en: 'Website',
+      ga: 'Suíomh gréasáin',
+      cy: 'Gwefan',
+      nl: 'Website',
+      de: 'Website',
+      sv: 'Webbplats',
+      da: 'Hjemmeside',
+      nb: 'Nettside',
+      fr: 'Site web',
+      es: 'Web',
+      it: 'Sito web',
+    },
+  },
+  {
+    key: 'messaging',
+    names: {
+      en: 'Messaging',
+      ga: 'Teachtaireachtaí',
+      cy: 'Negeseuon',
+      nl: 'Berichten',
+      de: 'Nachrichten',
+      sv: 'Meddelanden',
+      da: 'Beskeder',
+      nb: 'Meldinger',
+      fr: 'Messages',
+      es: 'Mensajes',
+      it: 'Messaggi',
+    },
+  },
+];
+
+export function engineName(e: Engine, lang: Lang): string {
+  if (lang === 'en-au') return e.names.en;
+  return e.names[lang] ?? e.names.en;
+}

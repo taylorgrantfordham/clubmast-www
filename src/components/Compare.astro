@@ -1,0 +1,137 @@
+---
+import { useSite } from '../i18n/site';
+import type { Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const s = useSite(lang);
+
+const rows = [1, 2, 3, 4, 5, 6].map((n) => ({
+  them: s(`compare.${n}a` as never),
+  us: s(`compare.${n}b` as never),
+}));
+---
+
+<section class="band cmp">
+  <div class="shell">
+    <header class="head reveal">
+      <p class="kicker">{s('compare.title')}</p>
+      <h2 class="h2">{s('compare.sub')}</h2>
+    </header>
+
+    <div class="grid reveal">
+      <div class="col them">
+        <h3 class="ch">{s('compare.them')}</h3>
+        <ul>
+          {rows.map((r) => (
+            <li>
+              <span class="ic" aria-hidden="true">
+                &times;
+              </span>
+              {r.them}
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="col us">
+        <h3 class="ch">{s('compare.us')}</h3>
+        <ul>
+          {rows.map((r) => (
+            <li>
+              <span class="ic" aria-hidden="true">
+                &check;
+              </span>
+              {r.us}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .head {
+    max-width: 22ch;
+    margin-bottom: clamp(30px, 4vw, 52px);
+  }
+  .head .h2 {
+    margin-top: 16px;
+    max-width: 18ch;
+  }
+
+  .grid {
+    display: grid;
+    gap: 14px;
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 800px) {
+    .grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+  }
+
+  .col {
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: clamp(22px, 2.6vw, 34px);
+    background: var(--surface);
+  }
+  .col.us {
+    border-color: color-mix(in oklab, var(--accent) 40%, transparent);
+    background: linear-gradient(180deg, var(--accent-glow), transparent 42%), var(--surface);
+  }
+
+  .ch {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin: 0 0 20px;
+  }
+  .us .ch {
+    color: var(--accent);
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 16px;
+  }
+  li {
+    display: grid;
+    grid-template-columns: 22px 1fr;
+    gap: 12px;
+    align-items: start;
+    font-size: 15.5px;
+    line-height: 1.42;
+    color: var(--ink-2);
+  }
+  .us li {
+    color: var(--ink);
+  }
+
+  .ic {
+    width: 22px;
+    height: 22px;
+    display: grid;
+    place-items: center;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 700;
+    background: var(--surface-3);
+    color: var(--ink-3);
+  }
+  .us .ic {
+    background: var(--accent);
+    color: var(--accent-ink);
+  }
+</style>

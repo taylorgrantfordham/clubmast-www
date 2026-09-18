@@ -1,0 +1,22 @@
+---
+import Base from '../../layouts/Base.astro';
+import Pricing from '../../components/pages/Pricing.astro';
+import { useTranslations, codes, defaultLang, type Lang } from '../../i18n/utils';
+
+export function getStaticPaths() {
+  return codes.filter((c) => c !== defaultLang).map((c) => ({ params: { lang: c } }));
+}
+
+const lang = Astro.params.lang as Lang;
+const t = useTranslations(lang);
+---
+
+<Base
+  lang={lang}
+  title={`${t('nav.pricing')} — Clubmast`}
+  description={t('meta.home.desc')}
+  path="/pricing"
+  active="pricing"
+>
+  <Pricing lang={lang} />
+</Base>

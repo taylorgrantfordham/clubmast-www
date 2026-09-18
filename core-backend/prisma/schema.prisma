@@ -1,0 +1,149 @@
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// ---------------------------------------------------------
+// Phase 1: Core Multi-Tenant Architecture
+// ---------------------------------------------------------
+
+model Club {
+  id        String   @id @default(cuid())
+  name      String
+  slug      String   @unique // Used for custom domains / subdomains
+  domain    String?  @unique // e.g., myfootballclub.com
+  sport     String   // e.g., "football", "rugby"
+  country   String
+  currency  String   @default("GBP")
+  
+  stripeAccountId String? // For Phase 2: Payments
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  memberships Membership[]
+  teams       Team[]
+  fixtures    Fixture[]
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  firstName String
+  lastName  String
+  password  String?
+  phone     String?
+  avatarUrl String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  memberships Membership[]
+}
+
+// Links a User to a Club with a specific Role (RBAC)
+model Membership {
+  id       String @id @default(cuid())
+  userId   String
+  clubId   String
+  
+  role     String @default("PLAYER") // ADMIN, COACH, PLAYER, PARENT
+  status   String @default("ACTIVE") // ACTIVE, PENDING, SUSPENDED
+
+  user     User   @relation(fields: [userId], references: [id])
+  club     Club   @relation(fields: [clubId], references: [id])
+
+  teamMemberships TeamMember[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, clubId])
+}
+
+
+// ---------------------------------------------------------
+// Engine 1: Teams & Squads
+// ---------------------------------------------------------
+
+model Team {
+  id        String   @id @default(cuid())
+  clubId    String
+  name      String   // e.g., "First Team", "U18s"
+  gender    String?  // MALE, FEMALE, MIXED
+  ageGroup  String?  // SENIOR, U18, U16
+
+  club      Club     @relation(fields: [clubId], references: [id])
+  members   TeamMember[]
+  fixtures  Fixture[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model TeamMember {
+  id           String @id @default(cuid())
+  teamId       String
+  membershipId String
+  
+  isCaptain    Boolean @default(false)
+  position     String?
+
+  team         Team       @relation(fields: [teamId], references: [id])
+  membership   Membership @relation(fields: [membershipId], references: [id])
+
+  @@unique([teamId, membershipId])
+}
+
+// ---------------------------------------------------------
+// Engine 2: Fixtures & Matchday
+// ---------------------------------------------------------
+
+model Fixture {
+  id        String   @id @default(cuid())
+  clubId    String
+  teamId    String
+
+  date      DateTime
+  type      String @default("LEAGUE") // LEAGUE, CUP, FRIENDLY
+  isHome    Boolean
+  opponent  String
+  venue     String?
+
+  homeScore Int?
+  awayScore Int?
+  status    String @default("SCHEDULED")
+
+  club      Club     @relation(fields: [clubId], references: [id])
+  team      Team     @relation(fields: [teamId], references: [id])
+  selections Selection[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// ---------------------------------------------------------
+// Availability & Selection Engine
+// ---------------------------------------------------------
+
+model Selection {
+  id           String @id @default(cuid())
+  fixtureId    String
+  membershipId String
+  
+  availability String       @default("UNKNOWN")
+  selected     Boolean      @default(false) // Did the coach pick them?
+  matchFeePaid Boolean      @default(false)
+
+  fixture      Fixture    @relation(fields: [fixtureId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  // A player can only have one selection status per fixture
+  @@unique([fixtureId, membershipId])
+}

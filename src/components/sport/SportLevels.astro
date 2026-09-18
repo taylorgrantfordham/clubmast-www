@@ -1,0 +1,198 @@
+---
+import type { SportPage } from '../../data/sport-pages';
+import Icon from '../Icon.astro';
+
+interface Props {
+  sport: SportPage;
+}
+const { sport } = Astro.props;
+const img = `/img/${sport.key}`;
+---
+
+<section class="lv on-dark">
+  <div class="bg" aria-hidden="true">
+    <img
+      src={`${img}/elite.webp`}
+      alt=""
+      width="768"
+      height="1024"
+      loading="lazy"
+      decoding="async"
+    />
+  </div>
+  <span class="veil" aria-hidden="true"></span>
+
+  <div class="shell in">
+    <header class="copy reveal">
+      <p class="kicker">{sport.levelsKicker}</p>
+      <h2 class="h2">{sport.levelsTitle}</h2>
+      <p class="lede">{sport.levelsBody}</p>
+      <a class="btn" href="#claim">
+        {sport.levelsCta}
+        <span class="arw">
+          <Icon name="arrow" />
+        </span>
+      </a>
+    </header>
+
+    <ul class="cards reveal">
+      {sport.levels.map((l) => (
+        <li>
+          <article class="c">
+            <img
+              src={`${img}/${l.key}.webp`}
+              alt=""
+              width="768"
+              height="1024"
+              loading="lazy"
+              decoding="async"
+            />
+            <span class="scrim" aria-hidden="true"></span>
+            <div class="txt">
+              <span class="ic">
+                <Icon name={l.icon} />
+              </span>
+              <h3>{l.title}</h3>
+              <p>{l.sub}</p>
+            </div>
+          </article>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .lv {
+    position: relative;
+    overflow: clip;
+    padding-block: clamp(56px, 7vw, 100px);
+  }
+  .bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+  .bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.5;
+  }
+  .veil {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(
+      90deg,
+      #060f0c 12%,
+      rgb(6 15 12 / 82%) 55%,
+      rgb(6 15 12 / 72%) 100%
+    );
+  }
+
+  .in {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    gap: clamp(30px, 4vw, 54px);
+    grid-template-columns: 1fr;
+    align-items: center;
+  }
+  @media (min-width: 1040px) {
+    .in {
+      grid-template-columns: 0.72fr 1.28fr;
+    }
+  }
+
+  .copy .h2 {
+    margin: 16px 0 18px;
+    max-width: 12ch;
+  }
+  .copy .lede {
+    margin-bottom: 26px;
+  }
+  .copy .arw {
+    display: inline-flex;
+    width: 17px;
+    height: 17px;
+  }
+
+  .cards {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 14px;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media (min-width: 760px) {
+    .cards {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .c {
+    position: relative;
+    border-radius: var(--r);
+    overflow: hidden;
+    aspect-ratio: 5 / 7;
+    border: 1px solid var(--line-2);
+    transition:
+      transform 0.2s cubic-bezier(0.2, 0.7, 0.3, 1),
+      border-color 0.2s ease;
+  }
+  .c:hover {
+    transform: translateY(-5px);
+    border-color: var(--mint);
+  }
+  .c img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .scrim {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      transparent 22%,
+      rgb(4 12 9 / 58%) 58%,
+      rgb(4 12 9 / 94%) 100%
+    );
+  }
+
+  .txt {
+    position: absolute;
+    inset: auto 0 0;
+    padding: 16px 15px 18px;
+    text-align: center;
+  }
+  .ic {
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    margin: 0 auto 9px;
+    color: #fff;
+    opacity: 0.95;
+  }
+  .ic :global(svg) {
+    width: 21px;
+    height: 21px;
+  }
+  .txt h3 {
+    font-size: 15.5px;
+    font-weight: 750;
+    letter-spacing: -0.02em;
+    margin-bottom: 4px;
+    color: #fff;
+  }
+  .txt p {
+    font-size: 12px;
+    line-height: 1.4;
+    color: rgb(255 255 255 / 76%);
+  }
+</style>

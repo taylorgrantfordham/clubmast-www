@@ -1,0 +1,223 @@
+---
+import { useSite } from '../i18n/site';
+import type { Lang } from '../i18n/ui';
+import DeviceMockup from './DeviceMockup.astro';
+import Icon from './Icon.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const s = useSite(lang);
+---
+
+<section class="hero on-dark">
+  <span class="wash" aria-hidden="true"></span>
+
+  <!-- Action montage as a full-bleed layer rather than a boxed image: it runs
+       off the top and right edges of the section, so there is no visible frame
+       to read as "cropped". Its left edge is masked away so the headline always
+       sits on clean ground. -->
+  <div class="montage" aria-hidden="true">
+    <picture>
+      <source srcset="/img/action.webp" type="image/webp" />
+      <img
+        src="/img/action.png"
+        alt=""
+        width="1536"
+        height="726"
+        loading="eager"
+        decoding="async"
+        fetchpriority="high"
+      />
+    </picture>
+  </div>
+
+  <svg class="chev" viewBox="0 0 600 700" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
+    <path d="M180 0 L420 0 L250 350 L420 700 L180 700 L10 350 Z" fill="var(--mint)" opacity=".10" />
+    <path
+      d="M330 120 L520 120 L385 380 L520 640 L330 640 L195 380 Z"
+      fill="var(--mint)"
+      opacity=".06"
+    />
+  </svg>
+
+  <!-- Pool of shade between the montage and the devices: white UI laid over
+       lit figures has nothing to sit against without it. -->
+  <span class="shade" aria-hidden="true"></span>
+
+  <div class="shell in">
+    <div class="copy">
+      <p class="kicker">{s('marquee.label')}</p>
+      <h1 class="display">
+        {s('hero.line1')}
+        <span class="alt">{s('hero.line2')}</span>
+      </h1>
+      <p class="lede">{s('hero.body')}</p>
+
+      <div class="acts">
+        <a class="btn" href="#claim">
+          {s('hero.primary')}
+          <span class="arw">
+            <Icon name="arrow" />
+          </span>
+        </a>
+        <a class="btn btn--ghost" href="#how">
+          {s('hero.secondary')}
+          <span class="pl">
+            <Icon name="play" />
+          </span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Devices sit absolutely over the montage. Because the photograph is a
+         full-bleed backdrop rather than a sibling element, they can overlap it
+         freely without either one looking clipped. -->
+    <div class="devices">
+      <DeviceMockup />
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    overflow: clip;
+    isolation: isolate;
+  }
+
+  .wash {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: linear-gradient(160deg, #0a1613 0%, #07110e 58%, #060f0c 100%);
+  }
+
+  .montage {
+    position: absolute;
+    top: -4%;
+    right: 0;
+    z-index: 1;
+    /* Confined to the right of the hero so the headline never sits on top of a
+             runner. The mask then softens where it meets the copy column. */
+    width: 58%;
+    pointer-events: none;
+  }
+  .montage img {
+    width: 100%;
+    height: auto;
+    opacity: 0.95;
+    /* Three fades intersected: hard out to the left before the headline, softly
+             under the header at the top, and into the section floor at the bottom. */
+    -webkit-mask-image:
+      linear-gradient(90deg, transparent 0%, #000 34%),
+      linear-gradient(270deg, transparent 0%, #000 11%),
+      linear-gradient(180deg, transparent 0%, #000 14%),
+      linear-gradient(0deg, transparent 0%, #000 22%);
+    mask-image:
+      linear-gradient(90deg, transparent 0%, #000 34%),
+      linear-gradient(270deg, transparent 0%, #000 11%),
+      linear-gradient(180deg, transparent 0%, #000 14%),
+      linear-gradient(0deg, transparent 0%, #000 22%);
+    -webkit-mask-composite: source-in;
+    mask-composite: intersect;
+  }
+
+  .shade {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    background: radial-gradient(42% 50% at 64% 64%, rgb(4 11 9 / 66%), transparent 74%);
+  }
+
+  .chev {
+    position: absolute;
+    inset: -14% -8% auto auto;
+    width: min(58vw, 720px);
+    height: 132%;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .in {
+    position: relative;
+    z-index: 3;
+    display: grid;
+    gap: 34px;
+    grid-template-columns: 1fr;
+    padding-block: clamp(44px, 6vw, 84px) clamp(48px, 6vw, 84px);
+    align-items: center;
+  }
+  @media (min-width: 1000px) {
+    .in {
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+  }
+
+  .copy {
+    max-width: 37rem;
+  }
+  .display {
+    margin: 20px 0 24px;
+  }
+  .lede {
+    margin-bottom: 34px;
+    max-width: 31rem;
+  }
+  .acts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 13px;
+  }
+  .acts .arw,
+  .acts .pl {
+    display: inline-flex;
+    width: 17px;
+    height: 17px;
+  }
+  .btn--ghost .pl {
+    color: var(--mint);
+  }
+
+  .devices {
+    position: relative;
+  }
+
+  @media (min-width: 1000px) {
+    .in {
+      min-height: 660px;
+    }
+    /* Anchored from the middle of the shell, not by percentage of it: the
+             cluster then clears the copy column by the same margin at every width,
+             instead of creeping over the headline as the viewport grows. */
+    .devices {
+      position: absolute;
+      width: auto;
+      z-index: 4;
+      left: calc(50% + 16px);
+      right: calc((100% - 100vw) / 2 - 40px);
+      bottom: clamp(16px, 2.6vw, 40px);
+    }
+  }
+  /* On narrow screens the montage becomes a banner above the copy rather than
+     a backdrop, which keeps the headline legible. */
+  @media (max-width: 999px) {
+    .montage {
+      position: relative;
+      width: 100%;
+      margin-bottom: -8%;
+    }
+    .montage img {
+      -webkit-mask-image: linear-gradient(0deg, transparent 0%, #000 30%);
+      mask-image: linear-gradient(0deg, transparent 0%, #000 30%);
+      -webkit-mask-composite: source-over;
+      mask-composite: add;
+    }
+    .devices {
+      margin-top: 26px;
+    }
+  }
+</style>
