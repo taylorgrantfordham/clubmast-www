@@ -20,7 +20,7 @@ async function deploy() {
         // Step 1: Deploy Marketing Site to Vercel
         console.log('📦 Deploying Marketing Site (Astro)...');
         if (!isDryRun) {
-            console.log('Skipping Vercel auth');
+            await $`npx vercel --prod --yes`;
         } else {
             console.log('-> [DRY RUN] npx vercel --prod --yes');
         }
@@ -29,7 +29,7 @@ async function deploy() {
         // Step 2: Deploy Dashboard to Vercel
         console.log('📦 Deploying Core Dashboard (React)...');
         if (!isDryRun) {
-            console.log('Skipping Vercel auth');
+            await $`cd core-dashboard && npx vercel --prod --yes`;
         } else {
             console.log('-> [DRY RUN] cd core-dashboard && npx vercel --prod --yes');
         }
