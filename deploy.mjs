@@ -47,7 +47,7 @@ async function deploy() {
             npx prisma generate &&
             npx prisma db push --accept-data-loss &&
             npm run build &&
-            pm2 restart clubmast-backend || pm2 start dist/index.js --name clubmast-backend
+            pm2 restart clubmast-backend || pm2 start npm --name clubmast-backend -- run dev
         `;
 
         if (!isDryRun) {
