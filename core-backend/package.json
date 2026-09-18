@@ -5,7 +5,9 @@
   "scripts": {
     "db:generate": "prisma generate",
     "db:push": "prisma db push",
-    "dev": "ts-node src/index.ts",`n    "build": "tsc",`n    "start": "node dist/index.js",
+    "dev": "ts-node src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
     "lint": "eslint .",
     "format": "prettier --write ."
   },
